@@ -1,0 +1,14 @@
+{
+  "player_a_name": "Dave Lusby & Tom P",
+  "player_b_name": "Jamie & Ian",
+  "points_per_game": 11,
+  "win_by_two": true,
+  "sets_to_win": 0,
+  "flic_mac_a": "90:88:a9:50:64:5f",
+  "flic_mac_b": "90:88:a9:50:6b:c0",
+  "double_click_ms": 350,
+  "long_press_ms": 1000,
+  "initial_server": "A",
+  "serve_every_points": 2,
+  "admin_pin_hash": "a1fb4e703a9ef1fa4936801721ff285a97ac85330856674412e054892afe6972"
+}
