@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Final Result</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<div class="final-wrap">
+    <h1 style="font-size:clamp(30px,5vw,60px);color:#f0c040;text-align:center;margin-bottom:4px">🏆</h1>
+    <div class="meta">
+        {% if ms.division %}{{ ms.division }} · {% endif %}
+        {% if ms.date %}{{ ms.date }} · {% endif %}
+        {% if ms.venue %}{{ ms.venue }}{% endif %}
+    </div>
+    <div style="font-size:clamp(20px,3vw,40px);font-weight:700;text-align:center;margin:8px 0">
+        {{ ms.home_team }} v {{ ms.away_team }}
+    </div>
+    <div class="final-score">{{ ms.home_score }} — {{ ms.away_score }}</div>
+    <div class="final-winner">{{ winner }} win!</div>
+
+    <table>
+        <tr>
+            <th>#</th>
+            <th>Players</th>
+            <th>End Scores</th>
+            <th>Result</th>
+        </tr>
+        {% for r in ms.match_results %}
+        <tr>
+            <td>{{ loop.index }}</td>
+            <td>
+                <span class="{{ 'hw' if r.home_ends > r.away_ends else '' }}">{{ r.home_player }}</span>
+                v
+                <span class="{{ 'hw' if r.away_ends > r.home_ends else '' }}">{{ r.away_player }}</span>
+            </td>
+            <td class="end-scores">
+                {% for e in r.ends %}{{ e[0] }}-{{ e[1] }}{% if not loop.last %} · {% endif %}{% endfor %}
+            </td>
+            <td>
+                <strong class="{{ 'hw' if r.home_ends > r.away_ends else 'aw' }}">
+                    {{ r.home_ends }}-{{ r.away_ends }}
+                </strong>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <a href="/score"><button class="back-btn">Back to Scoreboard</button></a>
+</div>
+</body>
+</html>

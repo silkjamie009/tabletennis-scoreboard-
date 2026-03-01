@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Up Next</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<div class="upnext-wrap">
+    <div class="match-num">Match {{ match_num }} of 10</div>
+    <div class="overall">
+        {{ ms.home_team }} <strong>{{ ms.home_score }}</strong> — <strong>{{ ms.away_score }}</strong> {{ ms.away_team }}
+    </div>
+
+    <div class="team">{{ ms.home_team }}</div>
+    <div class="player">{{ home_player }}</div>
+    <div class="vs">v</div>
+    <div class="team">{{ ms.away_team }}</div>
+    <div class="player">{{ away_player }}</div>
+
+    <form method="post" action="/match/startgame">
+        <div class="options">
+            <div class="opt">
+                <h3>{{ home_player }} starts at</h3>
+                <select class="match-select" name="home_end">
+                    <option value="clock">Clock end</option>
+                    <option value="window">Window end</option>
+                </select>
+            </div>
+            <div class="opt">
+                <h3>First server</h3>
+                <select class="match-select" name="server">
+                    <option value="A">{{ home_player }}</option>
+                    <option value="B">{{ away_player }}</option>
+                </select>
+            </div>
+        </div>
+        <button type="submit" class="match-btn">Start Game ▶</button>
+    </form>
+</div>
+</body>
+</html>

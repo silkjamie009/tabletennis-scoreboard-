@@ -1,0 +1,71 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Match Setup</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<div class="match-wrap">
+    <h1 class="match-title">🏓 Match Setup</h1>
+    <p style="text-align:center;color:#888">Use Tab to move between fields, Enter to save</p>
+
+    <form method="post" action="/match/setup" autocomplete="off">
+
+        <!-- Division / Date / Venue -->
+        <div style="background:#121826;padding:16px;border-radius:12px;margin-bottom:16px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px">
+            <label class="match-label">Division
+                <input class="match-input" name="division" value="{{ ms.division }}" placeholder="e.g. Div 1">
+            </label>
+            <label class="match-label">Date
+                <input class="match-input" name="date" type="text" value="{{ ms.date }}">
+            </label>
+            <label class="match-label">Venue
+                <input class="match-input" name="venue" value="{{ ms.venue }}">
+            </label>
+        </div>
+
+        <!-- Teams -->
+        <div class="match-grid">
+            <div class="match-col">
+                <h2 class="match-subtitle">🏠 Home Team</h2>
+                <label class="match-label">Team Name
+                    <input class="match-input" name="division" value="{{ ms.division }}" placeholder="e.g. Div 1" autofocus>
+                </label>
+                <label class="match-label">Player 1
+                    <input class="match-input" name="home_p1" value="{{ ms.home_players[0] }}">
+                </label>
+                <label class="match-label">Player 2
+                    <input class="match-input" name="home_p2" value="{{ ms.home_players[1] }}">
+                </label>
+                <label class="match-label">Player 3
+                    <input class="match-input" name="home_p3" value="{{ ms.home_players[2] }}">
+                </label>
+            </div>
+            <div class="match-col">
+                <h2 class="match-subtitle">✈️ Away Team</h2>
+                <label class="match-label">Team Name
+                    <input class="match-input" name="away_team" value="{{ ms.away_team }}">
+                </label>
+                <label class="match-label">Player 1
+                    <input class="match-input" name="away_p1" value="{{ ms.away_players[0] }}">
+                </label>
+                <label class="match-label">Player 2
+                    <input class="match-input" name="away_p2" value="{{ ms.away_players[1] }}">
+                </label>
+                <label class="match-label">Player 3
+                    <input class="match-input" name="away_p3" value="{{ ms.away_players[2] }}">
+                </label>
+            </div>
+        </div>
+
+        <button type="submit" class="match-btn">Start Match ▶</button>
+        <div style="text-align:center">
+            <a href="/score"><button type="button" class="cancel-btn">Cancel</button></a>
+        </div>
+
+    </form>
+</div>
+</body>
+</html>

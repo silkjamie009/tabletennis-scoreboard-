@@ -1,0 +1,77 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Admin Setup</title>
+<link rel="stylesheet" href="/static/style.css">
+<style>
+  .row2 { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  .hint { opacity:.85; font-size:14px; }
+</style>
+</head>
+<body>
+<div class="admin-wrap">
+    <div class="bar">
+        <h1>Admin Setup</h1>
+        <div><a href="/logout">Log out</a> · <a href="/score">Scoreboard</a></div>
+    </div>
+    <form method="post" action="/apply">
+        <div class="row2">
+            <label>Player A Name
+                <input name="player_a_name" value="{{ cfg.player_a_name }}">
+            </label>
+            <label>Player B Name
+                <input name="player_b_name" value="{{ cfg.player_b_name }}">
+            </label>
+        </div>
+        <div class="row2">
+            <label>Points per Game
+                <input type="number" name="points_per_game" value="{{ cfg.points_per_game }}" min="1">
+            </label>
+            <label>Sets to Win (0 = free play)
+                <input type="number" name="sets_to_win" value="{{ cfg.sets_to_win }}" min="0">
+            </label>
+        </div>
+        <label>
+            <input type="checkbox" name="win_by_two" {% if cfg.win_by_two %}checked{% endif %}>
+            Win by two
+        </label>
+        <div class="row2">
+            <label>Initial Server
+                <select name="initial_server">
+                    <option value="A" {% if cfg.initial_server=='A' %}selected{% endif %}>{{ cfg.player_a_name }} (A)</option>
+                    <option value="B" {% if cfg.initial_server=='B' %}selected{% endif %}>{{ cfg.player_b_name }} (B)</option>
+                </select>
+            </label>
+            <label>Serve change every (points)
+                <input type="number" name="serve_every_points" value="{{ cfg.serve_every_points }}" min="1">
+            </label>
+        </div>
+        <div class="row2">
+            <label>Flic MAC – Player A
+                <input name="flic_mac_a" value="{{ cfg.flic_mac_a }}">
+            </label>
+            <label>Flic MAC – Player B
+                <input name="flic_mac_b" value="{{ cfg.flic_mac_b }}">
+            </label>
+        </div>
+        <div class="row2">
+            <label>Double Click Window (ms)
+                <input type="number" name="double_click_ms" value="{{ cfg.double_click_ms }}">
+            </label>
+            <label>Long Press Duration (ms)
+                <input type="number" name="long_press_ms" value="{{ cfg.long_press_ms }}">
+            </label>
+        </div>
+        <div class="row2">
+            <label>Admin PIN (enter new PIN to change)
+                <input type="password" name="admin_pin" placeholder="leave blank to keep current">
+            </label>
+            <div class="hint">Default PIN is 2468</div>
+        </div>
+        <button type="submit" style="background:#f0c040;color:#000;font-weight:bold;width:100%;margin-top:8px">Save</button>
+    </form>
+</div>
+</body>
+</html>

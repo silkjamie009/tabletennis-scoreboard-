@@ -1,0 +1,79 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Match Result</title>
+<link rel="stylesheet" href="/static/style.css">
+<style>
+  body { margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+  .result-layout {
+    display: flex;
+    flex: 1;
+    min-height: 100vh;
+  }
+  .result-left {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    border-right: 3px solid #2a3140;
+    text-align: center;
+  }
+  .result-right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    text-align: center;
+  }
+  .r-label { font-size: clamp(20px,3vw,40px); color: #888; margin-bottom: 10px; }
+  .r-players { font-size: clamp(30px,4vw,65px); font-weight: 700; margin: 8px 0; color: #fff; }
+  .r-score { font-size: clamp(100px,18vw,250px); font-weight: 900; color: #f0c040; line-height: 1; }
+  .r-winner { font-size: clamp(50px,7vw,110px); color: #4cff91; font-weight: 900; margin-top: 10px; }
+  .r-overall { font-size: clamp(25px,3.5vw,55px); color: #9ad7ff; margin-top: 16px; }
+  .r-ends-title { font-size: clamp(25px,3vw,45px); color: #9ad7ff; margin-bottom: 20px; font-weight: 700; }
+  .r-end-row { font-size: clamp(50px,8vw,120px); font-weight: 900; color: #fff; line-height: 1.2; }
+  .r-end-row.winner-end { color: #f0c040; }
+  .hint { position: fixed; bottom: 20px; left: 0; right: 0; text-align: center; font-size: 1.5rem; color: #888; animation: pulse 1.5s ease-in-out infinite; }
+</style>
+<script>
+document.addEventListener('keydown', function(e) {
+    if (e.code === 'Space' || e.key === 'Enter') {
+        window.location.href = '/match/next';
+    }
+});
+</script>
+</head>
+<body>
+<div class="result-layout">
+
+  <!-- LEFT: Summary -->
+  <div class="result-left">
+    <div class="r-label">Match {{ match_num }}</div>
+    <div class="r-players">{{ home_player }}<br>v<br>{{ away_player }}</div>
+    <div class="r-score">{{ ends_home }}—{{ ends_away }}</div>
+    <div class="r-winner">{{ winner }} wins!</div>
+    <div class="r-overall">
+      {{ ms.home_team }} <strong>{{ ms.home_score }}</strong> — <strong>{{ ms.away_score }}</strong> {{ ms.away_team }}
+    </div>
+  </div>
+
+  <!-- RIGHT: End by end scores -->
+  <div class="result-right">
+    <div class="r-ends-title">End Scores</div>
+    {% for end in ms.match_results[-1].ends %}
+    <div class="r-end-row {% if end[0] > end[1] %}winner-end{% endif %}">
+      {{ end[0] }} — {{ end[1] }}
+    </div>
+    {% endfor %}
+  </div>
+
+</div>
+<div class="hint">Press SPACE or ENTER to continue</div>
+</body>
+</html>

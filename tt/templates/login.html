@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Admin Login</title>
+<link rel="stylesheet" href="/static/style.css">
+<style>
+  body { display: grid; place-items: center; min-height: 100vh; }
+  .card { background:#121826; border:1px solid #2a3140; border-radius:14px; padding:24px; min-width:min(90vw,420px); }
+  .card h1 { margin:0 0 12px; font-size:24px; }
+  .card label { display:grid; gap:6px; margin:10px 0; }
+  .card input, .card button { font-size:18px; padding:10px; border-radius:10px; border:1px solid #2a3140; background:#0b0e14; color:#fff; }
+  .row { display:flex; gap:10px; justify-content:flex-end; margin-top:12px; }
+  .err { color:#ff8686; margin:8px 0 0 0; }
+</style>
+</head>
+<body>
+<div class="card">
+    <h1>Enter Admin PIN</h1>
+    <form method="post" action="/admin/login">
+        <label>PIN
+            <input name="pin" type="password" autofocus>
+        </label>
+        <div class="row">
+            <a href="/score">← Cancel</a>
+            <button type="submit">Unlock</button>
+        </div>
+        {% if error %}<div class="err">{{ error }}</div>{% endif %}
+    </form>
+</div>
+</body>
+</html>

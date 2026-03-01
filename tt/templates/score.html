@@ -1,0 +1,96 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Table Tennis Scoreboard</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<div class="wrap">
+    <div id="matchbar"><span id="matchscore"></span></div>
+
+    <div class="grid" aria-live="polite">
+        <div class="names">
+            <div style="text-align:center">
+                <div class="name">
+                    <span id="nameA">{{ cfg.player_a_name }}</span>
+                    (<span id="setsA">0</span>)
+                </div>
+            </div>
+            <div style="text-align:center">
+                <div class="name">
+                    <span id="nameB">{{ cfg.player_b_name }}</span>
+                    (<span id="setsB">0</span>)
+                </div>
+            </div>
+        </div>
+
+        <div class="score" role="group">
+            <div id="scoreA" class="big">0</div>
+            <div id="scoreB" class="big">0</div>
+        </div>
+    </div>
+
+    <div class="controls">
+        Keyboard: A/L = score · G = next game · N = new match · S = toggle serve · E = Quick Edit · C = Match mode · Esc = Admin
+    </div>
+</div>
+
+<!-- Serve dots -->
+<div id="arrowA" class="serve-dot"></div>
+<div id="arrowB" class="serve-dot"></div>
+
+<!-- Win banner -->
+<div id="banner" class="banner" role="status">
+    <div class="inner">
+        <h2 id="bannerText"></h2>
+        <div class="history" id="bannerHistory"></div>
+    </div>
+</div>
+
+<!-- Floating buttons -->
+<div class="fab">
+    <button class="btn" id="btnQuick" title="Quick Edit">✎</button>
+    <button class="btn" id="btnAdmin" title="Admin Setup">⚙</button>
+</div>
+
+<!-- Quick Edit modal -->
+<dialog id="dlgQuick" autocomplete="off">
+    <div class="modal">
+        <h2>Quick Edit</h2>
+        <form id="quickForm" method="dialog" autocomplete="off">
+            <div class="row">
+                <label>Player A Name
+                    <input name="player_a_name" id="qa" value="{{ cfg.player_a_name }}">
+                </label>
+                <label>Player B Name
+                    <input name="player_b_name" id="qb" value="{{ cfg.player_b_name }}">
+                </label>
+            </div>
+            <div class="row">
+                <label>Sets to Win (0 = free play)
+                    <input type="number" name="sets_to_win" id="qs" value="{{ cfg.sets_to_win }}" min="0">
+                </label>
+                <label>Who serves now
+                    <select name="server_now" id="qserv">
+                        <option value="A">A ({{ cfg.player_a_name }})</option>
+                        <option value="B">B ({{ cfg.player_b_name }})</option>
+                    </select>
+                </label>
+            </div>
+            <div class="actions">
+                <button type="button" id="qCancel">Cancel</button>
+                <button type="submit" id="qSave">Save</button>
+            </div>
+        </form>
+    </div>
+</dialog>
+
+<script>
+    window.DOUBLE_CLICK_MS = {{ cfg.double_click_ms | int }};
+    window.LONG_PRESS_MS   = {{ cfg.long_press_ms | int }};
+</script>
+<script src="/static/score.js"></script>
+</body>
+</html>
