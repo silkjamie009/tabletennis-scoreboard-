@@ -74,6 +74,7 @@ class MatchState:
             self.end_history = []
             self.mid_end_swapped = False
             self.mid_end_display_swapped = False
+            self.start_swapped = False
 
     def reset_game(self):
         with self.lock:
@@ -356,6 +357,7 @@ def get_state():
             sets_a=state_obj.sets_a, sets_b=state_obj.sets_b,
             swapped=False if cfg.sets_to_win == 0 else state_obj.game % 2 == 0,
             mid_end_display_swapped=getattr(state_obj, 'mid_end_display_swapped', False),
+            start_swapped=getattr(state_obj, 'start_swapped', False),
             sets_to_win=cfg.sets_to_win,
             match_active=match_system.active,
             match_home_team=match_system.home_team,
@@ -497,6 +499,9 @@ def match_upnext():
 def match_startgame():
     hp, ap = match_system.get_current_players()
     server = request.form.get("server","A") if request.method == "POST" else "A"
+    home_end = request.form.get("home_end","clock") if request.method == "POST" else "clock"
+    # If home player starts at window end, they appear on the right (swapped)
+    start_swapped = (home_end == "window")
     with state_obj.lock:
         state_obj.a = 0; state_obj.b = 0
         state_obj.sets_a = 0; state_obj.sets_b = 0
@@ -506,6 +511,9 @@ def match_startgame():
         state_obj.last_action = "Ready"
         state_obj.server = server
         state_obj.end_history = []
+        state_obj.mid_end_swapped = False
+        state_obj.mid_end_display_swapped = False
+        state_obj.start_swapped = start_swapped
     cfg.player_a_name = hp
     cfg.player_b_name = ap
     cfg.sets_to_win = 3
