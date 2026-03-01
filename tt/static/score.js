@@ -47,8 +47,9 @@ async function poll() {
         const bigSize = bothDouble ? 'clamp(60px,26vw,400px)' : 'clamp(60px,38vw,500px)';
         document.querySelectorAll('.big').forEach(el => el.style.fontSize = bigSize);
 
-        // Swap sides between ends (but not in free play), plus mid-end swap in deciding game
-        const sw = (s.sets_to_win > 0 ? s.swapped : false) !== (s.mid_end_display_swapped || false);
+        // Swap sides: end swap + mid-end swap + initial end selection
+        const endSwap = s.sets_to_win > 0 ? s.swapped : false;
+        const sw = endSwap !== (s.mid_end_display_swapped || false) !== (s.start_swapped || false);
         scoreA.textContent = sw ? s.b : s.a;
         scoreB.textContent = sw ? s.a : s.b;
         setsA.textContent  = sw ? s.sets_b : s.sets_a;
