@@ -562,7 +562,10 @@ def match_doubles():
 @app.route("/match/abandon")
 def match_abandon():
     match_system.reset()
+    cfg.sets_to_win = 0
+    save_config(cfg)
     with state_obj.lock:
+        state_obj.cfg = cfg
         state_obj.game_over = False; state_obj.match_over = False; state_obj.banner = ""
     return redirect(url_for("score"))
 
