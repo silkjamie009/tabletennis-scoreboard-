@@ -16,7 +16,7 @@
         <!-- Division / Date / Venue -->
         <div style="background:#121826;padding:16px;border-radius:12px;margin-bottom:16px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px">
             <label class="match-label">Division
-                <input class="match-input" name="division" value="{{ ms.division }}" placeholder="e.g. Div 1">
+                <input class="match-input" name="division" value="{{ ms.division }}" placeholder="e.g. Div 1" autofocus>
             </label>
             <label class="match-label">Date
                 <input class="match-input" name="date" type="text" value="{{ ms.date }}">
@@ -31,7 +31,7 @@
             <div class="match-col">
                 <h2 class="match-subtitle">🏠 Home Team</h2>
                 <label class="match-label">Team Name
-                    <input class="match-input" name="division" value="{{ ms.division }}" placeholder="e.g. Div 1" autofocus>
+                    <input class="match-input" name="home_team" value="{{ ms.home_team }}">
                 </label>
                 <label class="match-label">Player 1
                     <input class="match-input" name="home_p1" value="{{ ms.home_players[0] }}">
@@ -67,5 +67,10 @@
 
     </form>
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelector('input[name="division"]').focus();
+    });
+</script>
 </body>
 </html>
