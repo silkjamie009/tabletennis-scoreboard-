@@ -150,9 +150,6 @@ document.addEventListener('keydown', (e) => {
             if (matchExitCount >= 5) {
                 matchExitCount = 0;
                 window.location.href = '/match/abandon';
-            } else {
-                const remaining = 5 - matchExitCount;
-                alert('Press 5 ' + remaining + ' more time' + (remaining > 1 ? 's' : '') + ' to exit match');
             }
             return;
         }
