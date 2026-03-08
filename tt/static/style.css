@@ -215,9 +215,9 @@ input:focus, select:focus {
 
 /* ---- Match Setup / Forms ---- */
 .match-wrap {
-    max-width: 1000px;
-    margin: 0 auto;
+    width: 100%;
     padding: 20px;
+    box-sizing: border-box;
 }
 
 .match-grid {
@@ -235,14 +235,14 @@ input:focus, select:focus {
 .match-label {
     display: block;
     margin-bottom: 16px;
-    font-size: 40px;
+    font-size: 83px;
     font-weight: 600;
 }
 
 .match-input, .match-select {
     width: 100%;
     padding: 20px;
-    font-size: 40px;
+    font-size: 83px;
     background: #1a2030;
     color: #fff;
     border: 2px solid #2a3140;
@@ -286,16 +286,17 @@ input:focus, select:focus {
     cursor: pointer;
     margin-top: 10px;
 }
+.cancel-btn:focus, .cancel-btn:hover { outline: 6px solid #fff; box-shadow: 0 0 60px rgba(255,255,255,0.8), 0 0 120px rgba(255,255,255,0.4); transform: scale(1.05); transition: all 0.15s; }
 
 h1.match-title {
-    font-size: 32px;
+    font-size: 37px;
     text-align: center;
     color: #f0c040;
     margin-bottom: 20px;
 }
 
 h2.match-subtitle {
-    font-size: 32px;
+    font-size: 37px;
     color: #9ad7ff;
     margin: 16px 0 8px;
     font-weight: 700;
@@ -312,10 +313,10 @@ h2.match-subtitle {
     padding: 20px;
 }
 
-.match-num { font-size: 2rem; color: #888; margin-bottom: 6px; }
-.overall { font-size: 1.8rem; color: #9ad7ff; margin-bottom: 16px; }
-.vs { font-size: clamp(25px, 5vw, 50px); color: #888; margin: 8px 0; }
-.player { font-size: clamp(60px, 10vw, 120px); font-weight: 900; color: #f0c040; line-height: 1.1; }
+.match-num { font-size: 4rem; color: #888; margin-bottom: 6px; }
+.overall { font-size: 3.5rem; color: #9ad7ff; margin-bottom: 16px; }
+.vs { font-size: clamp(50px, 8vw, 100px); color: #888; margin: 8px 0; }
+.player { font-size: clamp(60px, 10vw, 130px); font-weight: 900; color: #f0c040; line-height: 1.1; }
 .team { font-size: 1.3rem; color: #9ad7ff; margin-bottom: 4px; }
 
 .options {
@@ -333,12 +334,12 @@ h2.match-subtitle {
     min-width: 200px;
 }
 
-.opt h3 { margin: 0 0 10px; color: #9ad7ff; font-size: 40px; }
+.opt h3 { margin: 0 0 10px; color: #9ad7ff; font-size: 60px; }
 
 .opt select {
     width: 100%;
     padding: 20px;
-    font-size: 40px;
+    font-size: 72px;
     background: #1a2030;
     color: #fff;
     border: 2px solid #2a3140;

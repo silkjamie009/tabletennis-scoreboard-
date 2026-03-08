@@ -178,6 +178,7 @@ document.addEventListener('keydown', (e) => {
     else if (k === 's')  { e.preventDefault(); cmd('toggleserve'); }
     else if (k === 'c')  { e.preventDefault(); window.location.href = '/match/setup'; }
     else if (k === 'e')  { e.preventDefault(); dlgQuick.showModal(); qA.focus(); }
+    else if (k === 'r' && !e.ctrlKey && !e.shiftKey && !e.metaKey)  { e.preventDefault(); fetch('/toggle_speech', {method:'POST'}).then(r=>r.json()).then(d=>{ const icon = document.getElementById('speechIcon'); if (icon) icon.textContent = d.speech ? 'SND ON' : 'SND OFF'; }); }
     else if (k === 'a')  { handleDown('a', e); }
     else if (k === 'l')  { handleDown('l', e); }
 });
@@ -189,8 +190,6 @@ document.addEventListener('keyup', (e) => {
 });
 
 // ---- Quick Edit ----
-btnQuick.addEventListener('click', () => { dlgQuick.showModal(); qA.focus(); });
-btnAdmin.addEventListener('click', () => { window.location.href = '/admin'; });
 qCancel.addEventListener('click', () => dlgQuick.close());
 
 qForm.addEventListener('submit', async (e) => {
@@ -199,6 +198,7 @@ qForm.addEventListener('submit', async (e) => {
     try {
         await fetch('/quick', { method:'POST', body: fd });
         dlgQuick.close();
+        location.reload();
     } catch(err) {
         alert('Failed to save.');
     }
