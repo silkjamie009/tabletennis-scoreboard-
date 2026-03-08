@@ -203,3 +203,51 @@ qForm.addEventListener('submit', async (e) => {
         alert('Failed to save.');
     }
 });
+
+// ---- Touch Controls ----
+let touchStartX = 0, touchStartY = 0, touchStartTime = 0;
+const SWIPE_THRESHOLD = 80;
+const TAP_THRESHOLD = 200;
+
+document.addEventListener('touchstart', (e) => {
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+    touchStartTime = Date.now();
+}, { passive: true });
+
+document.addEventListener('touchend', (e) => {
+    // Ignore if touching a button or dialog
+    if (e.target.closest('button, a, dialog, .fab-tablet, select, input')) return;
+
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    const dy = e.changedTouches[0].clientY - touchStartY;
+    const dt = Date.now() - touchStartTime;
+    const absDx = Math.abs(dx);
+    const absDy = Math.abs(dy);
+    const screenW = window.innerWidth;
+    const onLeft = touchStartX < screenW / 2;
+
+    // Two finger tap = toggle serve
+    if (e.changedTouches.length >= 2 && dt < TAP_THRESHOLD) {
+        cmd('toggleserve'); return;
+    }
+
+    // Swipe up = next game
+    if (absDy > SWIPE_THRESHOLD && absDy > absDx && dy < 0) {
+        cmd('next'); return;
+    }
+
+    // Horizontal swipe = remove point
+    if (absDx > SWIPE_THRESHOLD && absDx > absDy) {
+        if (dx > 0) cmd('bminus');  // swipe right = remove right player
+        else cmd('aminus');          // swipe left = remove left player
+        return;
+    }
+
+    // Tap = add point
+    if (absDx < 20 && absDy < 20 && dt < TAP_THRESHOLD) {
+        if (onLeft) cmd('aplus');
+        else cmd('bplus');
+        return;
+    }
+}, { passive: true });

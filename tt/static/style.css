@@ -412,3 +412,16 @@ td { padding: 10px; border: 1px solid #2a3140; text-align: center; }
 }
 .bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
 a { color: #9ad7ff; }
+
+/* ---- Tablet Buttons ---- */
+.fab-tablet {
+    position: fixed;
+    bottom: 16px;
+    left: 16px;
+    display: none;
+    gap: 12px;
+    z-index: 999;
+}
+@media (hover: none) and (pointer: coarse) {
+    .fab-tablet { display: flex; }
+}
