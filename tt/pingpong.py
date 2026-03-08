@@ -9,6 +9,18 @@ from typing import Optional
 from flask import Flask, request, redirect, url_for, render_template, jsonify, session, abort
 from signal import SIGINT, SIGTERM, signal
 
+import subprocess
+
+speech_enabled = True
+
+def speak(text):
+    if not speech_enabled:
+        return
+    try:
+        subprocess.Popen(['espeak', '-s', '130', '-a', '200', text])
+    except Exception as e:
+        print("Speech error:", e)
+
 try:
     import fliclib
 except Exception:
@@ -141,6 +153,13 @@ class MatchState:
 
             self._maybe_rotate_serve_after_point()
 
+            # Announce score with server first
+            if not self._check_game_over():
+                if self.server == "A":
+                    speak(f"{self.a} - {self.b}")
+                else:
+                    speak(f"{self.b} - {self.a}")
+
             # Mid-end swap in deciding game when total points reaches 5
             deciding_game = (
                 self.cfg.sets_to_win > 0 and
@@ -151,6 +170,7 @@ class MatchState:
                 self.mid_end_swapped = True
                 self.mid_end_display_swapped = True
                 self.banner = "⇄ Swap ends!"
+                speak("Swap ends")
 
             if self._check_game_over():
                 self.game_over = True
@@ -164,11 +184,13 @@ class MatchState:
                 if self.cfg.sets_to_win == 0:
                     self.winner_text = f"{self.a}-{self.b}"
                     self.banner = self.winner_text
+                    speak(f"{self.a} - {self.b}")
                 else:
                     self.end_history.append(f"{self.a}-{self.b} ({winner})")
                     history_text = "   ".join(self.end_history)
                     self.winner_text = f"Game {self.game} to {winner} ({self.a}-{self.b})"
                     self.banner = self.winner_text + "\n" + history_text
+                    speak(f"{self.a} - {self.b} . {winner} wins the end . {winner} leads {self.sets_a} ends to {self.sets_b}")
                 self.last_action = self.winner_text
 
                 if self.cfg.sets_to_win and (
@@ -358,6 +380,7 @@ def get_state():
             swapped=False if cfg.sets_to_win == 0 else state_obj.game % 2 == 0,
             mid_end_display_swapped=getattr(state_obj, 'mid_end_display_swapped', False),
             start_swapped=getattr(state_obj, 'start_swapped', False),
+            speech_enabled=speech_enabled,
             sets_to_win=cfg.sets_to_win,
             match_active=match_system.active,
             match_home_team=match_system.home_team,
@@ -579,6 +602,27 @@ def match_final():
 
 # -------------------- Secret / Logs --------------------
 
+@app.route("/toggle_speech", methods=["POST"])
+def toggle_speech():
+    global speech_enabled
+    speech_enabled = not speech_enabled
+    return jsonify({"speech": speech_enabled})
+
+@app.route("/lux")
+def get_lux():
+    try:
+        import smbus2
+        bus = smbus2.SMBus(1)
+        bus.write_byte(0x23, 0x01)
+        import time as t; t.sleep(0.1)
+        bus.write_byte(0x23, 0x10)
+        t.sleep(0.5)
+        data = bus.read_i2c_block_data(0x23, 0x10, 2)
+        lux = (data[0] << 8 | data[1]) / 1.2
+        return jsonify({"lux": round(lux, 1)})
+    except Exception as e:
+        return jsonify({"lux": "error", "msg": str(e)})
+
 @app.route("/secret")
 def secret():
     log_path = os.path.expanduser("~/pingpong_usage.log")
@@ -641,8 +685,22 @@ def set_lux_threshold(val):
 
 def light_monitor():
     import datetime
-    last_state = None
     bus = None
+    # Read last known state from log so restarts don't create duplicate entries
+    last_state = None
+    log_path = os.path.expanduser("~/pingpong_lights.log")
+    try:
+        if os.path.exists(log_path):
+            with open(log_path) as f:
+                lines = [l.strip() for l in f if l.strip()]
+            if lines:
+                last_line = lines[-1]
+                if "Lights ON" in last_line:
+                    last_state = "ON"
+                elif "Lights OFF" in last_line:
+                    last_state = "OFF"
+    except:
+        pass
     while True:
         try:
             import smbus2
