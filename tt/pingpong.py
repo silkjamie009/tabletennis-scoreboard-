@@ -87,6 +87,7 @@ class MatchState:
             self.mid_end_swapped = False
             self.mid_end_display_swapped = False
             self.start_swapped = False
+            self.waiting_for_swap = False
 
     def reset_game(self):
         with self.lock:
@@ -170,6 +171,7 @@ class MatchState:
                 self.mid_end_swapped = True
                 self.mid_end_display_swapped = True
                 self.banner = "⇄ Swap ends!"
+                self.waiting_for_swap = True
                 speak("Swap ends")
 
             if self._check_game_over():
@@ -457,7 +459,8 @@ def key_action():
     state_obj.banner = ""
     end_swapped = (state_obj.game % 2 == 0) if cfg.sets_to_win > 0 else False
     mid_swapped = getattr(state_obj, 'mid_end_display_swapped', False)
-    swapped = end_swapped != mid_swapped
+    start_swapped = getattr(state_obj, 'start_swapped', False)
+    swapped = end_swapped != mid_swapped != start_swapped
     left  = "B" if swapped else "A"
     right = "A" if swapped else "B"
     if   cmd == "aplus":  state_obj.add_point(left)
@@ -607,6 +610,10 @@ def toggle_speech():
     global speech_enabled
     speech_enabled = not speech_enabled
     return jsonify({"speech": speech_enabled})
+
+@app.route("/manifest.json")
+def manifest():
+    return app.send_static_file("manifest.json")
 
 @app.route("/lux")
 def get_lux():
