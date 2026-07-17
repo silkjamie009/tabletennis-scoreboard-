@@ -1,0 +1,28 @@
+* { box-sizing: border-box; }
+html, body { margin: 0; min-height: 100%; font-family: Arial, Helvetica, sans-serif; }
+body { background: #07111f; color: #fff; }
+.scoreboard-page { min-height: 100vh; overflow: hidden; }
+.scoreboard { min-height: 100vh; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 3vw; padding: 4vw; }
+.player { text-align: center; }
+.name { font-size: clamp(2rem, 5vw, 6rem); font-weight: 700; letter-spacing: .08em; }
+.score { font-size: clamp(10rem, 28vw, 34rem); font-weight: 800; line-height: .9; }
+.divider { font-size: clamp(5rem, 12vw, 14rem); opacity: .7; }
+.server-dot { width: clamp(2rem, 4vw, 4rem); height: clamp(2rem, 4vw, 4rem); border-radius: 50%; background: #ffd43b; margin: 1rem auto 0; opacity: 0; box-shadow: 0 0 28px rgba(255, 212, 59, .8); }
+.server-dot.active { opacity: 1; }
+.winner-message { position: fixed; inset: 0; display: grid; place-items: center; background: rgba(0, 0, 0, .86); font-size: clamp(4rem, 10vw, 12rem); font-weight: 800; text-transform: uppercase; }
+.control-link { position: fixed; right: 1rem; bottom: 1rem; color: #9ad7ff; }
+.control-page { padding: 1rem; }
+.control-panel { max-width: 900px; margin: 0 auto; text-align: center; }
+.control-panel h1 { font-size: clamp(2rem, 5vw, 4rem); }
+.control-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+.control-card { background: #111d2e; border-radius: 1rem; padding: 1rem; }
+.control-card h2 { font-size: 2rem; margin: .25rem 0; }
+.control-score { font-size: 6rem; font-weight: 800; }
+button { width: 100%; border: 0; border-radius: .8rem; cursor: pointer; font-weight: 800; }
+.big-button { min-height: 9rem; font-size: 4rem; background: #2f9e44; color: white; }
+.small-button { min-height: 4rem; margin-top: .75rem; font-size: 2rem; background: #495057; color: white; }
+.utility-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem; }
+.utility-button { min-height: 5rem; font-size: 1.5rem; background: #1971c2; color: white; }
+.utility-button.danger { background: #c92a2a; }
+a { color: #9ad7ff; }
+@media (max-width: 650px) { .control-grid, .utility-buttons { grid-template-columns: 1fr; } }

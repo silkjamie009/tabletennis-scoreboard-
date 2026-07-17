@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Scoreboard Controls</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body class="control-page">
+  <main class="control-panel">
+    <h1>Table Tennis Controls</h1>
+    <section class="control-grid">
+      <div class="control-card">
+        <h2>Left</h2>
+        <div id="control-left-score" class="control-score">0</div>
+        <button class="big-button" data-side="left" data-operation="add">+1</button>
+        <button class="small-button" data-side="left" data-operation="subtract">−1</button>
+      </div>
+      <div class="control-card">
+        <h2>Right</h2>
+        <div id="control-right-score" class="control-score">0</div>
+        <button class="big-button" data-side="right" data-operation="add">+1</button>
+        <button class="small-button" data-side="right" data-operation="subtract">−1</button>
+      </div>
+    </section>
+    <section class="utility-buttons">
+      <button id="change-server" class="utility-button">Change server</button>
+      <button id="new-game" class="utility-button danger">New game</button>
+    </section>
+    <p><a href="/">Open TV scoreboard</a></p>
+  </main>
+  <script src="/static/scoreboard.js"></script>
+</body>
+</html>
