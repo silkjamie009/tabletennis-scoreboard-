@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Simple Table Tennis Scoreboard</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body class="scoreboard-page">
+  <main class="scoreboard">
+    <section class="player">
+      <div class="name">LEFT</div>
+      <div id="left-score" class="score">0</div>
+      <div id="left-server" class="server-dot"></div>
+    </section>
+    <div class="divider">:</div>
+    <section class="player">
+      <div class="name">RIGHT</div>
+      <div id="right-score" class="score">0</div>
+      <div id="right-server" class="server-dot"></div>
+    </section>
+  </main>
+  <div id="winner" class="winner-message" hidden></div>
+  <a class="control-link" href="/control">Controls</a>
+  <script src="/static/scoreboard.js"></script>
+</body>
+</html>
